@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]  # main ブランチにpushされたら動く設定
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリをチェックアウト
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      # Nodeをセットアップ
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # 依存関係のインストール
+      - name: Install dependencies
+        run: yarn install
+        # npmなら: run: npm ci
+
+      # ビルド(静的サイト生成)
+      - name: Build project
+        run: yarn generate
+        # npmなら: run: npm run generate
+
+      # gh-pagesブランチへデプロイ
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
