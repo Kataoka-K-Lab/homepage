@@ -35,4 +35,4 @@ jobs:
         with:
           publish_dir: ./dist
           publish_branch: pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.HOMEPAGE_TOKEN }}
